@@ -14,7 +14,7 @@ header {
 }
 
 .logo {
-    height: 60px; 
+    height: 30px; 
 }
 
 .story-list {
@@ -58,8 +58,8 @@ header {
     transition: transform 0.3s ease;
     text-decoration: none;
     position: absolute;
-    bottom: 275px;
-    right: 20px;
+    bottom: 283px;
+    right: 15px;
 }
 
 .icon-img {
@@ -102,6 +102,71 @@ header {
     width: 100%;
 }
 
-.story-container::-webkit-scrollbar {
-    display: none;
+.settings-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #3848d1ca; 
+    margin: 50px auto;
+}
+
+.settings-section {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff8f8; 
+}
+
+button {
+    background: #3848d1ca; 
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #2d3aa1;
+}
+
+.delete-btn {
+    background: red;
+}
+
+.delete-btn:hover {
+    background: darkred;
+}
+
+.section-title {
+    text-align: center;
+    color: black;
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3848d1ca;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
