@@ -170,3 +170,30 @@ button:hover {
     transition: background-color 0.3s ease;
     font-weight: bold;
 }
+
+.thumbnail-wrapper {
+    position: relative;
+    display: inline-block;
+}
+.thumbnail-wrapper:hover .info-icon {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.info-icon {
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    background-color: #ffffffcc;
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 16px;
+    cursor: pointer;
+    z-index: 2;
+    opacity: 0;
+}
