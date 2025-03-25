@@ -21,3 +21,30 @@ function searchStory() {
         }
     });
 }
+
+document.querySelectorAll(".info-icon").forEach(icon => {
+    icon.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const wrapper = icon.closest(".thumbnail-wrapper");
+
+        const title = wrapper.querySelector(".story-title")?.innerText || "Untitled";
+        const author = wrapper.querySelector(".story-author")?.innerText || "Unknown Author";
+        const description = wrapper.querySelector(".story-description")?.innerText || "No description available.";
+
+        document.getElementById("infoTitle").innerText = title;
+        document.getElementById("infoAuthor").innerText = "Author: " + author;
+        document.getElementById("infoDescription").innerText = description;
+
+        const panel = document.getElementById("infoPanel");
+        panel.classList.remove("hidden");
+        panel.classList.add("show");
+    });
+});
+
+// Close button to hide the panel
+document.querySelector(".close-btn").addEventListener("click", () => {
+    const panel = document.getElementById("infoPanel");
+    panel.classList.remove("show");
+    panel.classList.add("hidden");
+});
