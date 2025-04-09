@@ -15,6 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const msg = document.getElementById('message');
 
     if (res.ok) {
+      localStorage.setItem("currentUser", username); // Save user to localStorage
       msg.textContent = '✅ Login successful! Redirecting...';
       setTimeout(() => {
         window.location.href = 'index.html'; // Change if needed

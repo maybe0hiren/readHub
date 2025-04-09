@@ -1,1 +1,9 @@
-{}
+{
+    "Hiren": {
+        "password": "scrypt:32768:8:1$ktyKIpbsiWNcHRD0$019416261aa28655b4a6075cc69f201bc0b53cc1d45c3e645c3981728cc406bb38b8adeeb03992dcd5051f9205d3cf527deefc46df8ca828950297380e559e18",
+        "continueReading": [
+            "kashyap.html",
+            "testStory.html"
+        ]
+    }
+}

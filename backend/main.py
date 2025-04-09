@@ -3,12 +3,9 @@ from db import user_exists, add_user, verify_user, add_continue_reading, remove_
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app) 
-
-
+CORS(app, origins=["http://127.0.0.1:5500"])
 
 @app.route("/register", methods=["POST"])
-
 def register():
     data = request.get_json()
     username = data.get("username")
@@ -24,7 +21,6 @@ def register():
     return jsonify({"success": True, "message": "User registered successfully."}), 201
 
 @app.route("/login", methods=["POST"])
-
 def login():
     data = request.get_json()
     username = data.get("username")
@@ -42,6 +38,8 @@ def save_progress():
     story = data.get("story")
     if not username or not story:
         return jsonify({"success": False, "message": "Username and story required."}), 400
+    if story == "index.html" or story == "":
+        return jsonify({"success": False, "message": "Cannot save progress for index.html or empty story."}), 400
     add_continue_reading(username, story)
     return jsonify({"success": True, "message": "Progress saved."})
 
@@ -63,6 +61,35 @@ def get_progress():
     progress = get_continue_reading(username)
     return jsonify({"success": True, "progress": progress})
 
+# ----------------------------------
+# New route for backward compatibility with old storyScript.js version
+# This allows POST requests to /progress to also save progress
+# ----------------------------------
+@app.route("/progress", methods=["POST"])
+def legacy_save_progress():
+    data = request.get_json()
+    username = data.get("username")
+    story = data.get("story")
+    if not username or not story:
+        return jsonify({"success": False, "message": "Username and story required."}), 400
+    if story == "index.html" or story == "":
+        return jsonify({"success": False, "message": "Cannot save progress for index.html or empty story."}), 400
+    add_continue_reading(username, story)
+    return jsonify({"success": True, "message": "Progress saved (legacy route)."})
+
+# ----------------------------------
+# New route to handle story completion when user scrolls to the bottom
+# Called from scripts.js using /finish
+# ----------------------------------
+@app.route("/finish", methods=["POST"])
+def mark_finished():
+    data = request.get_json()
+    username = data.get("username")
+    story = data.get("story")
+    if not username or not story:
+        return jsonify({"success": False, "message": "Username and story required."}), 400
+    remove_continue_reading(username, story)
+    return jsonify({"success": True, "message": "Story marked as finished."})
 
 if __name__ == "__main__":
     app.run(debug=True)
