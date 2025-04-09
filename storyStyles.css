@@ -1,7 +1,7 @@
 /* Styles for Story Pages */
 
 body {
-    background: url('Thumbnail_Kashyap.jpeg') no-repeat center center fixed;
+    background: url('thumbnails/Kashyap.jpeg') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     font-family: Arial, sans-serif;

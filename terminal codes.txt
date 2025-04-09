@@ -1,5 +1,0 @@
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-
-npm install express mongoose bcryptjs cors body-parser
-
-node server.js

@@ -20,11 +20,37 @@ def user_exists(username):
 
 def add_user(username, password):
     users = load_users()
-    users[username] = generate_password_hash(password)
+    users[username] = {
+        "password": generate_password_hash(password),
+        "continueReading": []
+    }
     save_users(users)
+
 
 def verify_user(username, password):
     users = load_users()
     if username in users:
-        return check_password_hash(users[username], password)
+        return check_password_hash(users[username]["password"], password)
     return False
+
+def add_continue_reading(username, story):
+    users = load_users()
+    if username in users:
+        if "continueReading" not in users[username]:
+            users[username]["continueReading"] = []
+        if story not in users[username]["continueReading"]:
+            users[username]["continueReading"].append(story)
+        save_users(users)
+
+def remove_continue_reading(username, story):
+    users = load_users()
+    if username in users and "continueReading" in users[username]:
+        if story in users[username]["continueReading"]:
+            users[username]["continueReading"].remove(story)
+        save_users(users)
+
+def get_continue_reading(username):
+    users = load_users()
+    if username in users and "continueReading" in users[username]:
+        return users[username]["continueReading"]
+    return []
