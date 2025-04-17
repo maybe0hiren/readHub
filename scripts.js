@@ -22,42 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    loadContinueReading();
     loadOtherSections();
 
     setTimeout(() => {
         bindThumbnailClickHandlers();
         bindInfoIconHandlers();
     }, 100);
-
-    if (storyName.endsWith(".html") && username && storyName !== "index.html") {
-        fetch("http://localhost:5000/progress", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, story: storyName })
-        }).catch(err => console.error("Failed to save progress:", err));
-
-        let finishedSent = false;
-
-        window.addEventListener("scroll", () => {
-            if (finishedSent) return;
-            const atBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
-
-            if (atBottom) {
-                finishedSent = true;
-                markStoryAsFinished(username, storyName);
-            }
-        });
-
-        const markBtn = document.getElementById("markAsReadBtn");
-        if (markBtn) {
-            markBtn.addEventListener("click", () => {
-                if (finishedSent) return;
-                finishedSent = true;
-                markStoryAsFinished(username, storyName, markBtn);
-            });
-        }
-    }
 });
 
 function bindThumbnailClickHandlers() {
@@ -76,26 +46,7 @@ function bindThumbnailClickHandlers() {
             e.preventDefault();
             console.log("Thumbnail clicked:", story);
 
-            const username = localStorage.getItem("currentUser");
-
-            if (username) {
-                fetch("http://localhost:5000/progress", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ username, story })
-                })
-                .then(() => {
-                    window.location.href = story;
-                })
-                .catch(err => {
-                    console.error("Progress update failed:", err);
-                    window.location.href = story;
-                });
-            } else {
-                window.location.href = story;
-            }
+            window.location.href = story;
         });
     });
 }
@@ -146,31 +97,6 @@ function searchStory() {
     });
 }
 
-function loadContinueReading() {
-    const username = localStorage.getItem("currentUser");
-    const section = document.getElementById("continueReadingSection");
-
-    if (!username || !section) return;
-
-    fetch(`http://localhost:5000/progress?username=${username}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && Array.isArray(data.progress)) {
-                const container = section.querySelector("#continueReadingContent");
-                container.innerHTML = "";
-
-                if (data.progress.length > 0) {
-                    section.style.display = "block";
-                }
-
-                data.progress.forEach(story => {
-                    appendStoryToContainer(container, story);
-                });
-            }
-        })
-        .catch(err => console.error("Failed to load continue reading:", err));
-}
-
 function loadOtherSections() {
     document.querySelectorAll(".story-section").forEach(section => {
         const container = section.querySelector(".story-content");
@@ -192,7 +118,7 @@ function loadOtherSections() {
                                 <img src="thumbnails/${story.replace('.html', '.jpg')}" onerror="this.onerror=null;this.src='thumbnails/${story.replace('.html', '.png')}'" alt="${meta.title || story}">
                             </div>
                         </a>
-                        <span class="info-icon">ℹ️</span>
+                        <span class="info-icon">i</span>
                     `;
                 })
                 .catch(err => console.error("Failed to load metadata for", story, err));
@@ -203,41 +129,4 @@ function loadOtherSections() {
             bindInfoIconHandlers();
         }, 100);
     });
-}
-
-function appendStoryToContainer(container, story) {
-    fetch(`metadata/${story.replace(".html", ".json")}`)
-        .then(res => res.json())
-        .then(meta => {
-            const wrapper = document.createElement("div");
-            wrapper.className = "thumbnail-wrapper";
-
-            wrapper.innerHTML = `
-                <a href="${story}" class="story-thumbnail" data-story="${story}">
-                    <div class="thumbnail">
-                        <img src="thumbnails/${story.replace('.html', '.jpg')}" onerror="this.onerror=null;this.src='thumbnails/${story.replace('.html', '.png')}'" alt="${meta.title || story}">
-                    </div>
-                </a>
-                <span class="info-icon">i</span>
-            `;
-
-            container.appendChild(wrapper);
-        })
-        .catch(err => console.error(`Missing metadata for ${story}`, err));
-}
-
-function markStoryAsFinished(user, story, buttonRef = null) {
-    fetch("http://localhost:5000/finish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: user, story: story })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success && buttonRef) {
-            buttonRef.textContent = "Marked as Read";
-            buttonRef.disabled = true;
-        }
-    })
-    .catch(err => console.error("Failed to mark as finished:", err));
 }
