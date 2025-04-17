@@ -2,6 +2,14 @@
     "Hiren": {
         "password": "scrypt:32768:8:1$ktyKIpbsiWNcHRD0$019416261aa28655b4a6075cc69f201bc0b53cc1d45c3e645c3981728cc406bb38b8adeeb03992dcd5051f9205d3cf527deefc46df8ca828950297380e559e18",
         "continueReading": [
+            "kashyap.html",
+            "testStory.html"
+        ]
+    },
+    "Vitcollege": {
+        "password": "scrypt:32768:8:1$ChCtoVryHcgzSNIT$da78a17f42423e1e2e93043323f5d7117c37cbbb1063c8c870b4af12fbef1353ca0068a3c9304db155d839c45cff9d89869c4a92e3e9639e3748d913e499a77d",
+        "continueReading": [
+            "testStory.html",
             "kashyap.html"
         ]
     }
