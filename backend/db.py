@@ -54,3 +54,16 @@ def get_continue_reading(username):
     if username in users and "continueReading" in users[username]:
         return users[username]["continueReading"]
     return []
+
+def change_password(username, new_password):
+    users = load_users()
+    print("Users loaded:", users)  # DEBUG
+    if username in users:
+        print(f"Username {username} found. Changing password.")  # DEBUG
+        users[username]["password"] = generate_password_hash(new_password)
+        save_users(users)
+        print("Password saved!")  # DEBUG
+        return True
+    print(f"Username {username} not found!")  # DEBUG
+    return False
+

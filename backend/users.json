@@ -12,5 +12,9 @@
             "testStory.html",
             "kashyap.html"
         ]
+    },
+    "maybe.hiren": {
+        "password": "scrypt:32768:8:1$S9vIxeHz3MFGn8mq$1dc2372aedf97eee1df40627032e4fd3fc362cf9b04722951e0cae299f80d07580a914bf8c803962db9eed789bb3fbf4de7e61890e57dd47b367cb4fa225e2dd",
+        "continueReading": []
     }
 }

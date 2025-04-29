@@ -22,6 +22,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Handle Start Reading button click to update Continue Reading section
+    const startButton = document.querySelector("button.start-reading");
+    if (startButton) {
+        startButton.addEventListener("click", () => {
+            const storyTitle = document.title || "Untitled Story";
+            const storyPath = window.location.pathname;
+            const storyPage = storyPath.substring(storyPath.lastIndexOf("/") + 1);
+            const thumbnail = "thumbnails/" + storyPage.replace(".html", ".jpg");
+
+            const storyData = {
+                title: storyTitle,
+                url: storyPage,
+                thumbnail: thumbnail
+            };
+
+            let continueReading = JSON.parse(localStorage.getItem("continueReading")) || [];
+
+            // Prevent duplicates
+            continueReading = continueReading.filter(story => story.url !== storyData.url);
+            continueReading.unshift(storyData);
+
+            localStorage.setItem("continueReading", JSON.stringify(continueReading));
+        });
+    }
+
     loadOtherSections();
 
     setTimeout(() => {
